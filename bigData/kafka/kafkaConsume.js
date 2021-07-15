@@ -2,6 +2,7 @@
 
 const uuid = require("uuid");
 const dataModel = require("../mongoDB/dataModel");
+const redisSender = require("../redis/RedisSender");
 const Kafka = require("node-rdkafka");
 
 const kafkaConf = {
@@ -40,6 +41,7 @@ consumer.on("data", function(m) {
   console.log("i am here");
   console.log(m.value.toString());
   dataModel.sendData(m.value.toString());
+  redisSender.sendDataToRedis(m.value.toString());
 
 });
 consumer.on("disconnected", function(arg) {
