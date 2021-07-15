@@ -40,7 +40,7 @@ consumer.on("ready", function(arg) {
 consumer.on("data", function(m) {
   console.log("i am here");
   console.log(m.value.toString());
-  dataModel.sendData(m.value.toString());
+  // dataModel.sendData(m.value.toString());
   redisSender.sendDataToRedis(m.value.toString());
 
 });

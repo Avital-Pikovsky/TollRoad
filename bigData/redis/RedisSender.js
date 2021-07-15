@@ -8,6 +8,14 @@ var myobj;
 // for explanations : https://www.sitepoint.com/using-redis-node-js/
 module.exports.sendDataToRedis = function(cars){
      myobj = JSON.parse(cars)
+
+     redisClient.sadd('Cars', myobj ,function (err, object){
+        // console.log(cars);
+    });
+
+    redisClient.publish("message", JSON.stringify(myobj), function () {
+        console.log('published')
+    });
 }
 app.get('/test', function (req, res) {
 
@@ -17,10 +25,10 @@ app.get('/test', function (req, res) {
     });
 
     //Store and get Hash i.e. object( as keyvalue pairs)
-    redisClient.hmset('cars', myobj);
-    redisClient.hgetall('cars', function (err, object) {
-        console.log(object);
-    });
+    // redisClient.hmset('cars', myobj);
+    // redisClient.hgetall('cars', function (err, object) {
+    //     console.log(object);
+    // });
     /*
     also ok:
     redisClient.hmset('Sections', {
@@ -40,8 +48,9 @@ client.lrange('frameworks', 0, -1, function(err, reply) {
     console.log(reply); // ['angularjs', 'backbone']
 }); */
 
-    redisClient.publish("message", "{\"message\":\"Hello from Redis\"}", function () {
-    });
+    // redisClient.publish("message", JSON.stringify(myobj), function () {
+        
+    // });
 
     res.send('תקשרתי עם רדיס....')
 });
