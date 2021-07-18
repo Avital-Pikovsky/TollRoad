@@ -16,7 +16,7 @@ for(var j = 0 ; j < 10 ; j++){
     }while (car_detail.out_section == car_detail.in_section)
     car_detail.week_day = Math.floor(Math.random() * 7) + 1;
     if( car_detail.car_type == 'truck' || car_detail.car_type == 'bus'){
-        car_detail.special_day = 0;
+        car_detail.special_day = false;
     }
     else {
         car_detail.special_day = Math.random() < 0.5;
@@ -112,7 +112,7 @@ for(var j = 0 ; j < 10 ; j++){
         default:   
     }
     cb(car_detail);
-    console.log(car_detail);
+//     console.log(car_detail);
     // socket.emit("callDetails", car_detail);
     }
 }

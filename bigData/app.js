@@ -4,6 +4,7 @@ var server = require('http').createServer(app);
 const io = require("socket.io")(server)
 const port = 3000
 const simu = require('./simu/simulator');
+const fetch = require('./mongoDB/fetchMongo');
 
 //------------ kafka------------
 const kafka = require('./kafka/kafkaProduce');
@@ -25,6 +26,7 @@ app.get('/dashboard', (req, res) => {
     var cards=["Borrowed","Annual Profit","Lead Conversion","Average Income",];
   res.render("./pages/index",{cards:cards});
 })
+app.use('/fetch', fetch.fetchAll);
 
 //------------ Socket.io ----------------
 io.on("connection", (socket) => {

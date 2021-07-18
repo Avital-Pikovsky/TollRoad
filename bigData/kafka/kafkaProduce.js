@@ -17,7 +17,7 @@ const kafkaConf = {
 };
 
 const prefix = "gh1qkygc-";
-const topic = `${prefix}test`; // send to this topic
+const topic = `${prefix}dar`; // send to this topic
 const producer = new Kafka.Producer(kafkaConf);
 
 const genMessage = m => new Buffer.alloc(m.length,m);

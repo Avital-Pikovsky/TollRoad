@@ -1,8 +1,8 @@
 // https://www.cloudkarafka.com/ הפעלת קפקא במסגרת ספק זה
 
 const uuid = require("uuid");
-const dataModel = require("../mongoDB/dataModel");
-const redisSender = require("../redis/RedisSender");
+const mongoConnection = require("../mongoDB/mongoDB");
+// const redisSender = require("../redis/RedisSender");
 const Kafka = require("node-rdkafka");
 
 const kafkaConf = {
@@ -17,7 +17,7 @@ const kafkaConf = {
 };
 
 const prefix = "gh1qkygc-";
-const topic = `${prefix}test`; // send to this topic
+const topic = `${prefix}dar`; // send to this topic
 const producer = new Kafka.Producer(kafkaConf);
 
 const genMessage = m => new Buffer.alloc(m.length,m);
@@ -40,8 +40,8 @@ consumer.on("ready", function(arg) {
 consumer.on("data", function(m) {
   console.log("i am here");
   console.log(m.value.toString());
-  // dataModel.sendData(m.value.toString());
-  redisSender.sendDataToRedis(m.value.toString());
+  mongoConnection.ConnectTodb(m.value.toString(), 1);
+  // redisSender.sendDataToRedis(m.value.toString());
 
 });
 consumer.on("disconnected", function(arg) {
