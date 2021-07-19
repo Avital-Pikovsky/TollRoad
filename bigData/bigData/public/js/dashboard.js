@@ -5,14 +5,14 @@
     //Revenue Chart
     if ($("#revenue-chart").length) {
         var revenueChartCanvas = $("#revenue-chart").get(0).getContext("2d");
-
+// GRAPH
         var revenueChart = new Chart(revenueChartCanvas, {
             type: 'bar',
             data: {
-            labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+            labels: ["car", "bus", "truck", "motocycle"],
             datasets: [{
-                data: [105, 195, 290, 320, 400, 100, 290],
-                backgroundColor: ["rgba(255, 86, 48, 0.3)", "rgba(255, 86, 48, 0.3)", "rgba(255, 86, 48, 0.3)", "rgb(255, 86, 48)", "rgba(255, 86, 48, 0.3)", "rgba(255, 86, 48, 0.3)", "rgba(255, 86, 48, 0.3)"],
+                data: [10, 19, 29, 32],
+                backgroundColor: ["rgba(255, 86, 48)", "rgba(255, 86, 48)", "rgba(255, 86, 48)", "rgb(255, 86, 48)"],
                 }
             ]
             },
@@ -29,7 +29,7 @@
                 ticks: {
                     fontColor: '#bababa',
                     min:0,
-                    stepSize: 100,
+                    stepSize: 5,
                 }
                 }],
                 xAxes: [{
@@ -61,7 +61,7 @@
         var gradient2 = salesChartCanvas.createLinearGradient(0, 0, 0, 160);
         gradient2.addColorStop(0, '#1bbd88');
         gradient2.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
+//GRAPH
         var salesChart = new Chart(salesChartCanvas, {
           type: 'line',
           data: {

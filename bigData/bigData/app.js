@@ -5,6 +5,8 @@ const io = require("socket.io")(server)
 const port = 3000
 const simu = require('./simu/simulator');
 const fetch = require('./mongoDB/fetchMongo');
+const CarsRoutes = require('./routes/routes');
+const kafkaConsume = require('./kafka/kafkaConsume');
 
 //------------ kafka------------
 const kafka = require('./kafka/kafkaProduce');
@@ -20,12 +22,9 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
 app.get('/', (req, res) => res.send("<a href='/send'>Send</a> <br/><a href=''>View</a>"));
-// app.get('/send', (req, res) => res.render('sender'));
 
-app.get('/dashboard', (req, res) => {
-    var cards=["Borrowed","Annual Profit","Lead Conversion","Average Income",];
-  res.render("./pages/index",{cards:cards});
-})
+app.use(CarsRoutes);
+
 app.use('/fetch', fetch.fetchAll);
 
 //------------ Socket.io ----------------
