@@ -42,10 +42,6 @@ io.on("connection", (socket) => {
 //
 //const client1 = new kafka.KafkaClient({kafkaHost: "localhost:9092"});
 
-
-
-
-
 //------------------------------------
 
 
