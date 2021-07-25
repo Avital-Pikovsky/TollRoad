@@ -7,12 +7,10 @@ var car_types = ['car', 'truck' , 'bus' , 'motorcycle'];
 
 var probabilities = [0.7, 0.1, 0.1, 0.1];
 module.exports.simulator = function(cb){
-    setInterval(function(){ Simulator_cars(cb)},10000)
+    setInterval(function(){ Simulator_cars(cb)},1500)
 }
 
-function Simulator_cars(cb){
-    for(var j = 0 ; j < 10 ; j++){
-    
+function Simulator_cars(cb){    
         var car_detail = {};
         car_detail.brand = brands[(Math.random() * brands.length) | 0];
         car_detail.color = colors[(Math.random() * colors.length) | 0];
@@ -37,68 +35,33 @@ function Simulator_cars(cb){
         do{
             car_detail.out_section = Math.floor(Math.random() * 5) + 1;
         }while (car_detail.out_section == car_detail.in_section)
-        //car and colors
-        if (car_detail.car_type === 'car'){
-            if (car_detail.color === 'red' || car_detail.color === 'green' ){
-                if (car_detail.out_section != 4 && car_detail.out_section != 2){
-                    var i = Math.random() < 0.5;
-                    if (i == 0 && car_detail.in_section != 2 ){
-                        car_detail.out_section = 2;
-                    }
-                    else {
-                        car_detail.out_section = 4
-                    }
+
+        //car type
+        switch(car_detail.car_type){
+            case 'car':
+                if (car_detail.color === 'red'){
+                    car_detail.out_section = 2;
                 }
-            }
-            else if (car_detail.color === 'blue' || car_detail.color === 'yellow'){
-                if (car_detail.out_section != 1 && car_detail.out_section != 3){
-                    var i = Math.random() < 0.5;
-                    if (i == 0 && car_detail.in_section != 1 ){
-                        car_detail.out_section = 1;
-                    }
-                    else {
-                        car_detail.out_section = 3;
-                    }
+                if (car_detail.color === 'green'){
+                    car_detail.out_section = 1;
                 }
-            }
-            else if(car_detail.color === 'white' || car_detail.color === 'black'){
-                if (car_detail.out_section != 1 && car_detail.out_section != 5){
-                    var i = Math.random() < 0.5;
-                    if (i == 0 && car_detail.in_section != 1){
-                        car_detail.out_section = 1;
-                    }
-                    else {
-                        car_detail.out_section = 5;
-                    }
-                }
-            }
-            else {
-                if (car_detail.out_section != 2 && car_detail.out_section != 3){
-                    var i = Math.random() < 0.5;
-                    if (i == 0 && car_detail.in_section != 2){
-                        car_detail.out_section = 2;
-                    }
-                    else {
-                        car_detail.out_section = 3;
-                    }
-                }
-            }
-        }
-        
-        // motorcycle
-        if (car_detail.car_type === 'motorcycle'){ 
-            if (car_detail.out_section != 3 && car_detail.out_section != 5){
-                var i = Math.random() < 0.5;
-                if (i == 0 && car_detail.in_section != 3 ){
+                if (car_detail.color === 'blue'){
                     car_detail.out_section = 3;
                 }
-                else {
+                if (car_detail.color === 'white'){
+                    car_detail.out_section = 2;
+                }
+                if (car_detail.color === 'black'){
+                    car_detail.out_section = 3;
+                }
+                if (car_detail.color === 'yellow'){
+                    car_detail.out_section = 4;
+                }
+                if (car_detail.color === 'pink'){
                     car_detail.out_section = 5;
                 }
-            }
-        }
-        // truck and bus
-        switch(car_detail.car_type){
+            
+                break;
             case 'truck':
                 car_detail.out_section = 4
                 while(car_detail.hour_in < 4 && car_detail.hour_out > 20){
@@ -116,6 +79,9 @@ function Simulator_cars(cb){
                     car_detail.week_day = Math.floor(Math.random() * 7) + 1;
                 }
                 break;
+                case 'motrocycle':
+                car_detail.out_section = 3
+                break;
             default:   
         }
         cars_now.push(car_detail);
@@ -126,7 +92,7 @@ function Simulator_cars(cb){
 
         // }
     }
-}
+
 function getRandomType () {
     var num = Math.random(),
         s = 0,
