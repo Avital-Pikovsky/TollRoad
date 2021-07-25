@@ -1,4 +1,4 @@
-// https://www.cloudkarafka.com/ הפעלת קפקא במסגרת ספק זה
+// https://www.cloudkarafka.com/
 
 const uuid = require("uuid");
 const Kafka = require("node-rdkafka");
@@ -16,6 +16,8 @@ const simu = require('../simu/simulator');
 //   "sasl.password": "n3jmymvhIGE-uDgJRGei0rMEUz5yk9x6",
 //   "debug": "generic,broker,security"
 // };
+
+//------------ Kafka details to connection------------
 const kafkaConf = {
   "group.id": "cloudkarafka-example",
   "metadata.broker.list": "dory-01.srvs.cloudkafka.com:9094,dory-02.srvs.cloudkafka.com:9094,dory-01.srvs.cloudkafka.com:9094".split(","),
@@ -33,20 +35,14 @@ const producer = new Kafka.Producer(kafkaConf);
 
 const genMessage = m => new Buffer.alloc(m.length,m);
 
+//------------ Produce data------------
 producer.on("ready", function(arg) {
   console.log(`producer is ready.`);
-  simu.simulator(publish2);
+  simu.simulator(publish);
 });
 producer.connect();
-//publish is a name can be any name...
-module.exports.publish= function(msg)
-{   
-  m=JSON.stringify(msg);
-  producer.produce(topic, -1, genMessage(m), uuid.v4());  //Send to KAFKA
-  //producer.disconnect();   
-}
 
-function publish2(msg)
+function publish(msg)
 {   
   m=JSON.stringify(msg);
   producer.produce(topic, -1, genMessage(m), uuid.v4());  //Send to KAFKA

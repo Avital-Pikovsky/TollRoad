@@ -5,56 +5,17 @@ var redis = require('redis');
 var redisClient = redis.createClient();
 var sub = redis.createClient()
 var myobj;
-// for explanations : https://www.sitepoint.com/using-redis-node-js/
+
 module.exports.sendDataToRedis = function(cars){
      myobj = JSON.parse(cars)
 
      redisClient.sadd('Cars', myobj ,function (err, object){
-        // console.log(cars);
     });
 
     redisClient.publish("message", JSON.stringify(myobj), function () {
         console.log('published')
     });
 }
-app.get('/test', function (req, res) {
-
-    // Store string  
-    redisClient.set('NumberOfCars', "390", function (err, reply) {
-        console.log(reply);
-    });
-
-    //Store and get Hash i.e. object( as keyvalue pairs)
-    // redisClient.hmset('cars', myobj);
-    // redisClient.hgetall('cars', function (err, object) {
-    //     console.log(object);
-    // });
-    /*
-    also ok:
-    redisClient.hmset('Sections', {
-                        'javascript': 'AngularJS',
-                        'css': 'Bootstrap',
-                        'node': 'Express'
-                        });
-    */
-
-// lists : rpush or lpush
-/* client.rpush(['frameworks', 'angularjs', 'backbone'], function(err, reply) {
-    console.log(reply); //prints 2
-});
-
-// -1= get all
-client.lrange('frameworks', 0, -1, function(err, reply) {
-    console.log(reply); // ['angularjs', 'backbone']
-}); */
-
-    // redisClient.publish("message", JSON.stringify(myobj), function () {
-        
-    // });
-
-    res.send('תקשרתי עם רדיס....')
-});
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -62,11 +23,9 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-
 redisClient.on('connect', function () {
     console.log('Sender connected to Redis');
 });
 server.listen(6062, function () {
     console.log('Sender is running on port 6062');
 });
-

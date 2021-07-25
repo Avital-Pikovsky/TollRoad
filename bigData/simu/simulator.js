@@ -86,11 +86,6 @@ function Simulator_cars(cb){
         }
         cars_now.push(car_detail);
         cb(car_detail);
-        //console.log(car_detail);
-        // socket.emit("callDetails", car_detail);
-
-
-        // }
     }
 
 function getRandomType () {

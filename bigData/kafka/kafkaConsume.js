@@ -1,4 +1,4 @@
-// https://www.cloudkarafka.com/ הפעלת קפקא במסגרת ספק זה
+// https://www.cloudkarafka.com/
 
 const uuid = require("uuid");
 const mongoConnection = require("../mongoDB/mongoDB");
@@ -6,6 +6,7 @@ const redisSender = require("../redis/RedisSender");
 const Kafka = require("node-rdkafka");
 const bigML = require("../bigML/bigML");
 
+//------------ Kafka details to connection------------
 
 const kafkaConf = {
   "group.id": "cloudkarafka-example",
@@ -23,7 +24,6 @@ const topic = `${prefix}test`; // send to this topic
 const producer = new Kafka.Producer(kafkaConf);
 
 const genMessage = m => new Buffer.alloc(m.length,m);
-//const prefix = process.env.CLOUDKARAFKA_USERNAME;
 
 const topics = [topic];
 const consumer = new Kafka.KafkaConsumer(kafkaConf, {
@@ -39,10 +39,9 @@ consumer.on("ready", function(arg) {
   consumer.consume();
 });
 
+//------------ Consume new data------------
 consumer.on("data", function(m) {
-  // console.log("data - consume:");
-  // console.log(m.value.toString());
-  mongoConnection.ConnectTodb(m.value.toString(), 1);
+  mongoConnection.ConnectTodb(m.value.toString(), 1);//Upload data to mongoDB
   redisSender.sendDataToRedis(m.value.toString());
   bigML.bigmlprediction(m.value.toString());
 

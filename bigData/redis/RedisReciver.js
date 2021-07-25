@@ -3,20 +3,64 @@ var app = require('express')();
 var server = require('http').Server(app);
 var redis = require('redis');
 var redisClient = redis.createClient();
-var sub = redis.createClient()
+var sub = redis.createClient();
+
 var allMap = new Map();
 var car_number = 0;
-var cards = []
-var brands=[]
 var section_1 = 0, section_2 = 0, section_3 = 0, section_4 = 0, section_5 = 0;
 var Audi = 0, BMW = 0, Ford = 0, Honda = 0, Reno = 0, Toyota = 0, Lamborghini = 0, Maserati = 0;
-var car = 0, bus = 0, truck = 0, motocycle = 0;
 var car_section1 = [], car_section2 = [], car_section3 = [], car_section4 = [], car_section5 = [];
 
 redisClient.subscribe('message'); 
 
-app.get('/', (req, res) => res.send('Hello World!'))
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+//------------ get the data from redis and insert to Map ------------
+redisClient.on("message", function (channel, data) {
+    console.log("got data");
+    var values = new Map();
+
+    let jsonObject = JSON.parse(data);
+    values.set("brand", jsonObject.brand);
+    values.set("color", jsonObject.color);
+    values.set("car_type", jsonObject.car_type);
+    values.set("in_section", jsonObject.in_section);
+    values.set("out_section", jsonObject.out_section);
+    values.set("now_section", jsonObject.now_section);
+    values.set("week_day", jsonObject.week_day);
+    values.set("special_day", jsonObject.special_day);
+    values.set("date", jsonObject.date);
+    values.set("hour_in", jsonObject.hour_in);
+    values.set("hour_out", jsonObject.hour_out);
+
+    car_number++;
+
+    allMap.set(car_number, values);
+
+});
+redisClient.on('connect', function() {
+    console.log('Reciver connected to Redis');
+});
+
+
+server.listen(6061, function() {
+    console.log('reciver is running on port 6061');
+});
+
+//------------ Get cars details and send it to the dashboard (dashboard page)------------
 exports.getcars = (req, res, next) => {
     getbrands();
     getCarType();
@@ -46,6 +90,7 @@ exports.getcars = (req, res, next) => {
     res.render('./pages/index', {all: all}); 
 
 }
+//------------ Get details about the cars sections------------
 function carsSections(){
     section_1 = 0, section_2 = 0, section_3 = 0, section_4 = 0, section_5 = 0;
 
@@ -77,6 +122,7 @@ function carsSections(){
         } 
     });
 }
+//------------ Get details about the cars brands------------
 function getbrands(){
     Audi = 0, BMW = 0, Ford = 0, Honda = 0, Reno = 0, Toyota = 0, Lamborghini = 0, Maserati = 0;
     allMap.forEach(car => {
@@ -91,6 +137,7 @@ function getbrands(){
         else Maserati++; 
     });
 }
+//------------ Get details about the cars types------------
 function getCarType(){
     
         car_section1 = [];
@@ -122,51 +169,5 @@ function getCarType(){
                 }
             });
 }
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
 
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-redisClient.on("message", function (channel, data) {
-    var values = new Map();
-
-    let jsonObject = JSON.parse(data);
-    values.set("brand", jsonObject.brand);
-    values.set("color", jsonObject.color);
-    values.set("car_type", jsonObject.car_type);
-    values.set("in_section", jsonObject.in_section);
-    values.set("out_section", jsonObject.out_section);
-    values.set("now_section", jsonObject.now_section);
-    values.set("week_day", jsonObject.week_day);
-    values.set("special_day", jsonObject.special_day);
-    values.set("date", jsonObject.date);
-    values.set("hour_in", jsonObject.hour_in);
-    values.set("hour_out", jsonObject.hour_out);
-
-    car_number++;
-
-    allMap.set(car_number, values);
-
-    // console.log(allMap.get(1).get("brand"));
-});
-
-redisClient.on('connect', function() {
-    console.log('Reciver connected to Redis');
-});
-
-
-server.listen(6061, function() {
-    console.log('reciver is running on port 6061');
-});
 
