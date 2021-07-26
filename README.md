@@ -5,12 +5,15 @@
 
 • At any moment you can know the number of cars in each section.
 
-• The system will display on a dashboard the current number of cars and will allow you to request a breakdown of the list of cars.
-
 ![image](https://user-images.githubusercontent.com/57085913/126947973-1d57ca01-e64f-44ab-9101-b21ce42028c5.png)
 
+• The system will display on a dashboard the current number of cars and will allow you to request a breakdown of the list of cars.
+
+![image](https://user-images.githubusercontent.com/57085913/126953587-dd8c029b-b1d2-4352-99d0-996ab44a7c4c.png)
+
+• There is also an option to see how many cars there are on the road by types at any given moment.
+
 ![image](https://user-images.githubusercontent.com/57085913/126948185-9001fc64-7879-41bf-be0f-b3bae3446ced.png)
-![image](https://user-images.githubusercontent.com/57085913/126949319-a9d76cfb-81a9-470d-b112-3dbc1cc05ebc.png)
 
 • The system will build a decision model based on a decision tree with bigML: given the details of the road section, type of the car, day of the week and time
 car entry, a prediction will be made about which section the car will exit. 
