@@ -1,7 +1,7 @@
 # TollRoad
 ## Final Project in Big Data course
 
-• The system will enable the management of sections of the toll road, 5 sections in which vehicles vehicles enter and leave regularly.
+• The system will enable the management of sections of the toll road, 5 sections in which vehicles enter and exit regularly.
 
 We built a simulator that simulates a toll road with details of vehicles that enter and exit the road,
 such as: entrance section, type of car, day of the week, etc ..
