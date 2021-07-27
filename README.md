@@ -4,12 +4,13 @@
 • The system will enable the management of sections of the toll road, 5 sections in which vehicles enter and exit regularly.
 
 We built a simulator that simulates a toll road with details of vehicles that enter and exit the road,
-such as: entrance section, type of car, day of the week, etc ..
+such as: entrance section, type of vehicle, day of the week, etc ..
 
 The simulator sends the data to Kafka who creates a message queue of the vehicles, Kafka routes the information to MongoDB and Redis,
-When the Redis shows us the vehicles that are in real time on the road and their movement and the MongoDB keeps all the vehicles traveling on the road in total.
+When the Redis shows us the vehicles that are in real time on the road and their movement and the MongoDB keeps all the vehicles driving on the road in total.
 
-In the dashboard we will display the information taken from the redis that run on the Docker.
+In the dashboard we will display the information taken from the Redis that run on the Docker.
+
 The data from MongoDB will be taken and saved in a csv file that will be sent to bigML which we will use to create a learning model which will give us the prediction of the exit section of each vehicle.
 
 • At any moment you can know the number of vehicles in each section.
