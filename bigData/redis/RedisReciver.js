@@ -10,6 +10,8 @@ var car_number = 0;
 var section_1 = 0, section_2 = 0, section_3 = 0, section_4 = 0, section_5 = 0;
 var Audi = 0, BMW = 0, Ford = 0, Honda = 0, Reno = 0, Toyota = 0, Lamborghini = 0, Maserati = 0;
 var car_section1 = [], car_section2 = [], car_section3 = [], car_section4 = [], car_section5 = [];
+var cars=0, truck =0, bus =0 , motorcycle=0;
+var Sunday=0, Monday=0,Tuesday=0,Wednesday=0,Thursday=0,Friday=0,Saturday=0;
 
 redisClient.subscribe('message'); 
 
@@ -65,6 +67,8 @@ exports.getcars = (req, res, next) => {
     getbrands();
     getCarType();
     carsSections();
+    checkDays();
+    checkCountvehicles();
 
     var all_section = section_1 + section_2 + section_3 + section_4 + section_5;
 
@@ -86,7 +90,20 @@ exports.getcars = (req, res, next) => {
         {brand: "Lamborghini", Number_of_cars: Lamborghini , Precent_of_cars: (Lamborghini/all_brands)*100 },
         {brand: "Maserati", Number_of_cars: Maserati , Precent_of_cars: (Maserati/all_brands)*100 }];
 
-    var all = {cards, brands};
+    const vehicles =[{name: "car" , number:cars},
+                    {name: "bus" , number:bus},
+                    {name: "truck" , number:truck},
+                    {name: "motorcycle" ,number:motorcycle }];
+
+    const Days =[{day:Sunday},
+                 {day:Monday},
+                 {day:Tuesday},
+                 {day:Wednesday},
+                 {day:Thursday},
+                 {day:Friday},
+                 {day:Saturday},];
+
+    var all = {cards, brands, vehicles, Days};
     res.render('./pages/index', {all: all}); 
 
 }
@@ -168,6 +185,51 @@ function getCarType(){
                     car_section5.push({brand: brand , color:color , type:type});
                 }
             });
+}
+function checkDays(){
+    allMap.forEach(car => {
+    var day = car.get("week_day");
+    switch(day){
+        case 1: Sunday++;
+        break;
+        case 2: Monday++;
+        break;
+        case 3: Tuesday++;
+        break;
+        case 4: Wednesday++;
+        break;
+        case 5: Thursday++;
+        break;
+        case 6: Friday++;
+        break;
+        case 7: Saturday++;
+        break;
+        default: break;
+    }
+    
+    
+    });
+}
+
+function checkCountvehicles(){
+    cars=0;
+    bus =0;
+    truck =0;
+    motorcycle=0;
+    allMap.forEach(car => {
+        var type = car.get("car_type");
+        switch(type){
+            case 'car': cars++;
+            break;
+            case 'bus': bus++;
+            break;
+            case 'truck': truck++;
+            break;
+            case 'motorcycle': motorcycle++;
+            break;
+            default: break;
+        }
+    });
 }
 
 
