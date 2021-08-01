@@ -1,6 +1,14 @@
 # TollRoad
 ## Final Project in Big Data course
 
+To run the program on the localhost in Windows:
+
+1. install npm.
+2. install from [redis site](https://hub.docker.com/_/redis) the redis image.
+3. run Redis image on Docker with the 6379 port.
+4. run command `$ node app.js` or `$ npm start` in the program terminal.
+5. go to http://localhost:3000 and have fun 😊🚗
+
 • The system will enable the management of sections of the toll road, 5 sections in which vehicles enter and exit regularly.
 
 We built a simulator that simulates a toll road with details of vehicles that enter and exit the road,
@@ -12,6 +20,8 @@ When the Redis shows us the vehicles that are in real time on the road and their
 In the dashboard we will display the information taken from the Redis that run on the Docker.
 
 The data from MongoDB will be taken and saved in a csv file that will be sent to bigML which we will use to create a learning model which will give us the prediction of the exit section of each vehicle.
+
+http://localhost:3000/fetch will be create a new csv file for a new model.
 
 • At any moment you can know the number of vehicles in each section.
 
