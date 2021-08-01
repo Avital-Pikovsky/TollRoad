@@ -9,7 +9,7 @@ var probabilities = [0.7, 0.1, 0.1, 0.1];
 module.exports.simulator = function(cb){
     setInterval(function(){ Simulator_cars(cb)},1500)
 }
-
+//Every vehicle got: brand, color, type, in_section, now_section, week_day, special_day, date, hour_in, hour_out, out_section.
 function Simulator_cars(cb){    
         var car_detail = {};
         car_detail.brand = brands[(Math.random() * brands.length) | 0];
@@ -84,7 +84,6 @@ function Simulator_cars(cb){
                 break;
             default:   
         }
-        cars_now.push(car_detail);
         cb(car_detail);
     }
 

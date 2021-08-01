@@ -1,5 +1,3 @@
-// https://www.cloudkarafka.com/
-
 const uuid = require("uuid");
 const mongoConnection = require("../mongoDB/mongoDB");
 const redisSender = require("../redis/RedisSender");

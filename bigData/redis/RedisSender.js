@@ -9,8 +9,8 @@ var myobj;
 module.exports.sendDataToRedis = function(cars){
      myobj = JSON.parse(cars)
 
-     redisClient.sadd('Cars', myobj ,function (err, object){
-    });
+    //  redisClient.sadd('Cars', myobj ,function (err, object){
+    // });
 
     redisClient.publish("message", JSON.stringify(myobj), function () {
         console.log('published')

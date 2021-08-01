@@ -104,6 +104,7 @@ exports.getcars = (req, res, next) => {
                  {day:Saturday},];
 
     var all = {cards, brands, vehicles, Days};
+    //controller - send data to the view
     res.render('./pages/index', {all: all}); 
 
 }
